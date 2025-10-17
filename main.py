@@ -5,14 +5,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sentence_transformers import SentenceTransformer
 
 def extract_text_from_pdf(file_path: str) -> str:
-    reader = PdfReader(file_path)
+    reader = PdfReader("file.pdf")
     return " ".join(page.extract_text() or "" for page in reader.pages).strip()
 
 def vectorize_text(text: str, method: str):
     if method.lower() == "tfidf":
         vec = TfidfVectorizer(stop_words="english")
         X = vec.fit_transform([text])
-        return X.toarray(), list(vec.get_feature_names_out())
+        return X.toarray(), list(vec.get_feature_names_out()) # type: ignore
     elif method.lower() == "sbert":
         model = SentenceTransformer("all-MiniLM-L6-v2")
         X = model.encode([text], normalize_embeddings=True)
