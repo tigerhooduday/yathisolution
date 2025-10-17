@@ -12,7 +12,7 @@ def vectorize_text(text: str, method: str):
     if method.lower() == "tfidf":
         vec = TfidfVectorizer(stop_words="english")
         X = vec.fit_transform([text])
-        return X.toarray(), list(vec.get_feature_names_out()) # type: ignore
+        return X.toarray(), list(vec.get_feature_names_out()) 
     elif method.lower() == "sbert":
         model = SentenceTransformer("all-MiniLM-L6-v2")
         X = model.encode([text], normalize_embeddings=True)
@@ -35,6 +35,6 @@ if __name__ == "__main__":
 
     if args.method == "tfidf":
         non_zero = [(w, v) for w, v in zip(vocab, vectors[0]) if v > 0]
-        print("Top words:", [w for w, _ in non_zero[:10]])
+        print("Top words:", [w for w, _ in non_zero[:20]])
     else:
-        print("First 10 vector dims:", vectors[0][:10])
+        print("First 10 vector dims:", vectors[0][:20])
